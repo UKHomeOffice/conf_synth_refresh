@@ -1,0 +1,1 @@
+# Confluence Synthetic Refresh
