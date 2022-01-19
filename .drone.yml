@@ -1,0 +1,20 @@
+---
+kind: pipeline
+type: exec
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push_to_quay
+  commands:
+  - ./push_to_repo.sh
+
+trigger:
+  branch:
+  - dev
+  event:
+  - push
+...
