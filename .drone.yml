@@ -1,17 +1,17 @@
----
 kind: pipeline
-type: exec
-name: default
+type: kubernetes
+name: conf_synth
 
 platform:
   os: linux
   arch: amd64
 
 steps:
-- name: push_to_quay
+- name: conf_synth_image
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
+  pull: if-not-exists
   commands:
   - ./push_to_repo.sh
-
 trigger:
   branch:
   - dev
