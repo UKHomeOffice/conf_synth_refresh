@@ -1,20 +1,30 @@
 kind: pipeline
-type: kubernetes
+# type: kubernetes
 name: conf_synth
 
 platform:
   os: linux
   arch: amd64
 
+# steps:
+# - name: conf_synth_image
+#   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
+#   pull: if-not-exists
+#   commands:
+#   - ./push_to_repo.sh
+# trigger:
+#   branch:
+#   - dev
+#   event:
+#   - push
+
 steps:
-- name: conf_synth_image
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
-  pull: if-not-exists
-  commands:
-  - ./push_to_repo.sh
-trigger:
-  branch:
-  - dev
-  event:
-  - push
+- name: push_to_quay
+  image: plugins/docker
+  settings:
+    username: aminah100216
+    password: Gu+MvWH3Dmj1kEWGOAqY25iIhWokFGwD4xFqtklJ/bAmgxjNZ5Pql/eeLZ7ooG6N
+    repo: quay.io/ukhomeofficedigital/conf-synth-refresh
+    registry: quay.io
+
 ...
