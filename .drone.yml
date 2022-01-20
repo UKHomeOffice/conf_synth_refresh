@@ -17,6 +17,8 @@ steps:
       from_secret: AWS_SECRET_KEY
     repo: dsa/conf_synth_refresh
     registry: 340268328991.dkr.ecr.eu-west-2.amazonaws.com
+    region: eu-west-2
+    create_repository: false
 
 trigger:
   branch:
