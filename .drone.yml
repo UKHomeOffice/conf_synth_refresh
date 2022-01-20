@@ -7,8 +7,8 @@ platform:
   os: linux
   arch: amd64
 
-steps:
 - name: push_to_ecr
+  pull: always
   image: plugins/ecr
   settings:
     access_key:
