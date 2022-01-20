@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: default
+name: Conf Synth
 type: kubernetes
 
 platform:
@@ -8,26 +8,8 @@ platform:
   arch: amd64
 
 steps:
-- name: build_image
-  pull: if-not-exists
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
-  environment:
-    DOCKER_HOST: tcp://docker:2375
-  commands:
-  # wait for docker service to be up before running docker build
-  - n=0; while [ "$n" -lt 60 ] && [ ! "$(docker stats --no-stream)" ]; do n=$(( n + 1 )); sleep 1; done
-  - docker build -t synth-data:${DRONE_COMMIT_SHA} .
-  when:
-    branch:
-    - dev
-    event:
-    - push
-
-- name: build_tag_ecr
-  pull: if-not-exists
+- name: push_to_ecr
   image: plugins/ecr
-  environment:
-    AWS_REGION: eu-west-2
   settings:
     access_key:
       from_secret: AWS_ACCESS_KEY_ID
@@ -35,29 +17,17 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
     repo: dsa/conf_synth_refresh
     registry: 340268328991.dkr.ecr.eu-west-2.amazonaws.com
-    tags:
-    - ${DRONE_TAG}
-  when:
-    event:
-    - tag
-
-- name: build_push_ecr
-  pull: if-not-exists
-  image: plugins/ecr
-  environment:
-    AWS_REGION: eu-west-2
-  settings:
-    access_key:
-      from_secret: AWS_ACCESS_KEY_ID
-    secret_key:
-      from_secret: AWS_SECRET_ACCESS_KEY
-    repo: dsa/conf_synth_refresh
-    registry: 340268328991.dkr.ecr.eu-west-2.amazonaws.com
+    region: eu-west-2
+    create_repository: false
+    build_args:
+    - APP_BUILD=${DRONE_COMMIT_SHA}
+    - DOCKER_HOST=tcp://172.17.0.1:2375
     tags:
     - latest
     - ${DRONE_COMMIT_SHA}
-  when:
-    branch:
-    - master
-    event:
-    - push
+
+trigger:
+  branch:
+  - dev
+  event:
+  - push  
