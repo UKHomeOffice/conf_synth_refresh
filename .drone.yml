@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: Conf Synth
+name: Conf-Synth
 type: kubernetes
 
 platform:
@@ -9,6 +9,7 @@ platform:
 
 - name: push_to_ecr
   image: plugins/ecr
+  pull: always
   settings:
     access_key:
       from_secret: AWS_ACCESS_KEY_ID
