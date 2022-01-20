@@ -1,10 +1,15 @@
 kind: pipeline
-# type: kubernetes
 name: conf_synth
 
-platform:
-  os: linux
-  arch: amd64
+steps:
+- name: push_to_quay
+  image: plugins/docker
+  settings:
+    username: aminah100216
+    password: Gu+MvWH3Dmj1kEWGOAqY25iIhWokFGwD4xFqtklJ/bAmgxjNZ5Pql/eeLZ7ooG6N
+    repo: quay.io/ukhomeofficedigital/conf-synth-refresh
+    registry: quay.io
+    tags: latest
 
 # steps:
 # - name: conf_synth_image
@@ -18,13 +23,3 @@ platform:
 #   event:
 #   - push
 
-steps:
-- name: push_to_quay
-  image: plugins/docker
-  settings:
-    username: aminah100216
-    password: Gu+MvWH3Dmj1kEWGOAqY25iIhWokFGwD4xFqtklJ/bAmgxjNZ5Pql/eeLZ7ooG6N
-    repo: quay.io/ukhomeofficedigital/conf-synth-refresh
-    registry: quay.io
-
-...
