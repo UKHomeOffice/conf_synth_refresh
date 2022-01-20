@@ -1,9 +1,14 @@
 ---
 kind: pipeline
-name: conf_synth
+name: Conf_synth_data
+type: kubernetes
+
+platform:
+  os: linux
+  arch: amd64
 
 steps:
-- name: publish  
+- name: push_conf_synth 
   image: plugins/ecr
   settings:
     access_key: 
