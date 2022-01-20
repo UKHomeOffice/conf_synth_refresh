@@ -1,3 +1,4 @@
+---
 kind: pipeline
 name: conf_synth
 
@@ -12,7 +13,11 @@ steps:
     repo: dsa/conf_synth_refresh
     registry: 340268328991.dkr.ecr.eu-west-2.amazonaws.com
 
-
+trigger:
+  branch:
+  - development 
+  event:
+  - push
 
 
 # steps:
