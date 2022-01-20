@@ -19,7 +19,7 @@ steps:
   - echo $AWS_ACCESS_KEY_ID
 
 
-- name: push_to_ecr
+# - name: push_to_ecr
   # image: plugins/ecr
   # settings:
   #   access_key:
