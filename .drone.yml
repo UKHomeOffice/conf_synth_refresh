@@ -19,13 +19,12 @@ steps:
     registry: 340268328991.dkr.ecr.eu-west-2.amazonaws.com
     region: eu-west-2
     create_repository: false
-    # build_args:
-    # - APP_BUILD=${DRONE_COMMIT_SHA}
-    # - DOCKER_HOST=tcp://172.17.0.1:2375
-    # tags:
-    # - latest
-    # - ${DRONE_COMMIT_SHA}
-    
+    build_args:
+    - APP_BUILD=${DRONE_COMMIT_SHA}
+    - DOCKER_HOST=tcp://172.17.0.1:2375
+    tags:
+    - latest
+    - ${DRONE_COMMIT_SHA}
 
 trigger:
   branch:
