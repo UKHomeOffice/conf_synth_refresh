@@ -1,15 +1,15 @@
----
+---  
 kind: pipeline
-name: Conf-Synth
+name: conf-synth
 type: kubernetes
 
 platform:
   os: linux
   arch: amd64
 
+steps:
 - name: push_to_ecr
   image: plugins/ecr
-  pull: always
   settings:
     access_key:
       from_secret: AWS_ACCESS_KEY_ID
