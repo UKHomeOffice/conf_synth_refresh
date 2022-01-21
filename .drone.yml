@@ -1,12 +1,13 @@
 ---  
 kind: pipeline
-name: conf-synth
-# type: kubernetes
+name: Conf-Synth
+type: kubernetes
 
 platform:
   os: linux
   arch: amd64
 
+steps:
 - name: push_to_ecr
   image: plugins/ecr
   settings:
