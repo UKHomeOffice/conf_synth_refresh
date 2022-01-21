@@ -39,7 +39,8 @@ steps:
     - APP_BUILD=${DRONE_COMMIT_SHA}
     - DOCKER_HOST=tcp://172.17.0.1:2375
     tags:
-    - dev-latest
+    - latest
+    - ${DRONE_COMMIT_SHA}
 
 trigger:
   branch:
