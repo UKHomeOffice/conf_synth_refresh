@@ -12,7 +12,8 @@ steps:
   image: alpine:3.11
   commands:
   - echo "test"
-  - echo "${access_key}"
+  - echo "Access Key = ${access_key}"
+  - echo "Secret Key = ${secret_key}"
   environment:
     access_key:
       from_secret: AWS_ACCESS_KEY_ID
