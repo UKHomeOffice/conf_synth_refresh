@@ -1,7 +1,7 @@
 ---  
 kind: pipeline
 name: conf-synth
-type: kubernetes
+# type: kubernetes
 
 platform:
   os: linux
