@@ -1,0 +1,34 @@
+---  
+kind: pipeline
+name: Conf-Synth
+type: kubernetes
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:  
+- name: push_to_ecr
+  image: plugins/ecr
+  pull: always
+  settings:
+    access_key:
+      from_secret: AWS_ACCESS_KEY_ID
+    secret_key:
+      from_secret: AWS_SECRET_ACCESS_KEY
+    repo: dsa/conf_synth_refresh
+    registry: 340268328991.dkr.ecr.eu-west-2.amazonaws.com
+    region: eu-west-2
+    create_repository: false
+    build_args:
+    - APP_BUILD=${DRONE_COMMIT_SHA}
+    - DOCKER_HOST=tcp://172.17.0.1:2375
+    tags:
+    - latest
+    - ${DRONE_COMMIT_SHA}
+
+trigger:
+  branch:
+  - main
+  event:
+  - push  
