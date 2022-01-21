@@ -7,22 +7,7 @@ platform:
   os: linux
   arch: amd64
 
-steps:
-- name: testing
-  image: alpine:3.11
-  environment:
-    access_key:
-      from_secret: AWS_ACCESS_KEY_ID
-    secret_key:
-      from_secret: AWS_SECRET_ACCESS_KEY
-    TEST:
-      from_secret: test
-  commands:
-  - echo "$TEST"
-  - echo "Access Key = $access_key"
-  - echo "Secret Key = $secret_key"
-
-  
+steps:  
 - name: push_to_ecr
   image: plugins/ecr
   pull: always
@@ -44,6 +29,6 @@ steps:
 
 trigger:
   branch:
-  - dev
+  - main
   event:
   - push  
