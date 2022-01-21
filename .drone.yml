@@ -20,8 +20,7 @@ steps:
   commands:
   - echo ${test}
   - echo $test
-  - echo {{.test}}
-  - echo "Access Key = ${access_key}"
+  - echo "Access Key = $access_key"
   - echo "Secret Key = ${secret_key}"
 
   
