@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from random_word import RandomWords
 import re
 import time
+import random
 
 
 # Configuring variables
@@ -52,7 +53,21 @@ def space_keys():
                     if a=="key":
                         space_ids.append(b)
     return space_ids
-    
+
+
+def names_spaces():
+    global space_name
+    global space_key
+    backup_list=['scopperil', 'postgames', 'morulae', 'liponyms', 'salamander', 'lannet', 'halogenate','sarmale', 'inkberries', 'microcin', 'falconry', 'schmears', 'setline', 'unboot', 'stylemark', 'hyoshigi', 'alinements', 'yessotoxin', 'quines', 'petrograph', 'draglift', 'dogears', 'stenter', 'pootles', 'rumbullion']
+    r=RandomWords()
+    space_name=r.get_random_word(hasDictionaryDef="true",includePartOfSpeech="noun,verb",minLength=6, maxLength=12)
+    if space_name is None or space_name.isalpha()==False:
+        new_word=random.choice(backup_list)
+        backup_list.remove(new_word)
+        space_name=new_word
+        space_key=space_name[:5].upper() 
+    else:
+        space_key=space_name[:5].upper() 
 
 # Create spaces 
 def create_spaces(spaces):
@@ -60,23 +75,13 @@ def create_spaces(spaces):
     url = "https://confluence.shs-dev.dsa-notprod.homeoffice.gov.uk/rest/api/space"
 
     for i in range(spaces):
+        names_spaces()
         headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
         "Authorization": "Bearer {}".format(access_token)
         }
 
-        r=RandomWords()
-        space_name=r.get_random_word(hasDictionaryDef="true",minLength=6, maxLength=12)
-        space_key=space_name[:5].upper()
-        i=0
-
-        while space_name.isascii()==False or (space_key in space_ids):
-            space_name=r.get_random_word(hasDictionaryDef="true",minLength=6, maxLength=12)
-            space_key = space_name[:5].upper()
-            i+=1
-            if i>10:
-                break
 
         payload = json.dumps({
         "name": space_name,
@@ -91,8 +96,11 @@ def create_spaces(spaces):
 
         # print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
         stat=str(response.status_code)
+        # print(stat)
         if re.search('20.',stat):
             logging.info('%s Space created successfully \n Name:%s Key:%s %s \n', SUCCESS, space_name, space_key, isotime )
+        elif re.search('403',stat):
+            logging.error('%s Failed to create space - Access Denied \n Name:%s Key:%s %s \n', ERROR, space_name, space_key, isotime)  
         elif re.search('40.',stat):
             logging.error('%s Failed to create space - Invalid key \n Name:%s Key:%s %s \n', ERROR, space_name, space_key, isotime)            
         elif re.search('50.',stat):
@@ -113,7 +121,7 @@ def content(pages,comments):
                     title=gen.word(),
                     body=10*(gen.paragraph()))
                 page_id = confluence.get_page_id(id, status['title'])
-                logging.info('%s Page created successfully. \n Name:%s %s', SUCCESS, status['title'], isotime )
+                logging.info('%s Page created successfully. \n Name:%s %s \n', SUCCESS, status['title'], isotime )
 
                 for y in range(comments):
                     confluence.add_comment(page_id, gen.sentence())
@@ -129,9 +137,6 @@ def content(pages,comments):
 connection()
 generator()
 space_keys()
-try:
-    create_spaces(spaces = int(os.environ['SPACES']))
-except:
-    logging.raiseExceptions
+create_spaces(spaces = int(os.environ['SPACES']))
 space_keys() # Have to run this function again to take into account new spaces created. 
 content(pages = int(os.environ['PAGES']), comments = int(os.environ['COMMENTS']))
