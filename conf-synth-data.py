@@ -1,6 +1,5 @@
 from requests.models import HTTPError
 from atlassian import Confluence
-from essential_generators import DocumentGenerator
 import requests
 import json
 from requests.auth import HTTPBasicAuth
@@ -12,7 +11,7 @@ from random_word import RandomWords
 import re
 import time
 import random
-
+import lorem
 
 # Configuring variables
 load_dotenv()
@@ -36,10 +35,6 @@ def connection():
         password=os.environ['PASSWORD'])
 
 
-# Generates random material 
-def generator():
-    global gen
-    gen = DocumentGenerator()
 
 # Get keys for all the spaces 
 def space_keys():
@@ -118,13 +113,13 @@ def content(pages,comments):
             for id in space_ids:
                 status = (confluence).create_page(
                     space=id,
-                    title=gen.word(),
-                    body=10*(gen.paragraph()))
+                    title=lorem.sentence(),
+                    body=lorem.text())
                 page_id = confluence.get_page_id(id, status['title'])
                 logging.info('%s Page created successfully. \n Name:%s %s \n', SUCCESS, status['title'], isotime )
 
                 for y in range(comments):
-                    confluence.add_comment(page_id, gen.sentence())
+                    confluence.add_comment(page_id, lorem.sentence())
                     logging.info('%s Comment(s) added successfully. %s \n', SUCCESS, isotime )
 
     except HTTPError:
@@ -135,7 +130,6 @@ def content(pages,comments):
 
 # # Functions 
 connection()
-generator()
 space_keys()
 create_spaces(spaces = int(os.environ['SPACES']))
 space_keys() # Have to run this function again to take into account new spaces created. 

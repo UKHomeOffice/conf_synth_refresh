@@ -88,7 +88,7 @@ br.form['password'] = confluence_admin_pass
 br.form['confirm'] = confluence_admin_pass
 br.submit()
 
-print("Set up admin OK")
+print("Set up user OK")
 
 print("DONE")
 

@@ -1,7 +1,7 @@
 requests
 atlassian-python-api
-essential_generators
 python-dotenv
 random-word
 pyyaml
 mechanize
+lorem
