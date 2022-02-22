@@ -50,10 +50,11 @@ def space_keys():
     return space_ids
 
 
+backup_list=['scopperil', 'postgames', 'morulae', 'liponyms', 'salamander', 'lannet', 'halogenate','sarmale', 'inkberries', 'microcin', 'falconry', 'schmears', 'setline', 'unboot', 'stylemark', 'hyoshigi', 'alinements', 'yessotoxin', 'quines', 'petrograph', 'draglift', 'dogears', 'stenter', 'pootles', 'rumbullion']
+
 def names_spaces():
     global space_name
     global space_key
-    backup_list=['scopperil', 'postgames', 'morulae', 'liponyms', 'salamander', 'lannet', 'halogenate','sarmale', 'inkberries', 'microcin', 'falconry', 'schmears', 'setline', 'unboot', 'stylemark', 'hyoshigi', 'alinements', 'yessotoxin', 'quines', 'petrograph', 'draglift', 'dogears', 'stenter', 'pootles', 'rumbullion']
     r=RandomWords()
     space_name=r.get_random_word(hasDictionaryDef="true",includePartOfSpeech="noun,verb",minLength=6, maxLength=12)
     if space_name is None or space_name.isalpha()==False:
